@@ -1,4 +1,4 @@
-#Build the subroutines
+# Build the subroutines
 
 g++ -fPIC -c sub/basic1.cpp
 
@@ -8,11 +8,11 @@ ln -sf libbasic1.so.1.0 libbasic1.so.1
 
 ln -sf libbasic1.so.1.0 libbasic1.so
 
-#Build main:
+# Build main:
 
 g++ main.cpp dynload.cpp
 
-#Run:
+# Run:
 
 ./a.exe
 
