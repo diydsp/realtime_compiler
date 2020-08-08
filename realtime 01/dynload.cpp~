@@ -1,0 +1,26 @@
+#include<dlfcn.h>
+typedef int (add_func) (int a, int b);
+
+void *lib_handle = NULL;
+add_func * add;
+int main (int argc, char *argv[])
+{
+  lib_handle = (void *)dlopen("libmath.so", RTLD_LAZY);
+  if(lib_handle)
+  {
+    add = dlsym(lib_handle, "add");
+    if(lib_func)
+    {
+      printf("1 + 2 = %d", add(1, 2));
+    }
+    else
+    {
+      printf("Function entry not found in DLL");
+    }
+    dlclose(lib_handle);
+  }
+  else
+  {
+    printf("Unable to open DLL");
+  }
+}

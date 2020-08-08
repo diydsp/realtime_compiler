@@ -1,0 +1,7 @@
+#include <iostream>
+
+void basic( void )
+{
+  cout << "hello subworld." << '\n';
+}
+
