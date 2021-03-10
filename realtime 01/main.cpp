@@ -1,12 +1,16 @@
 #include <iostream>
 
-int dynload();
+#include "dynload.h"
+
+//int dynload();
 
 int main()
 {
   std::cout << "Hello world!" << '\n';
 
-  dynload();
+  DynLoad dynload{};
+
+  //dynload();
 
   return 0;
 }

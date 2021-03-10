@@ -8,12 +8,12 @@ typedef int (hwsub_func) (void);
 
 class DynLoad
 {
-  private:  
+ private:  
   void *lib_handle;
-  //void *lib_handle = NULL;
   add_func * add;
   hwsub_func * hwsub;
 
+ public:
   DynLoad()
   {
     lib_handle = (void *)dlopen("sub/libbasic1.so", RTLD_LAZY);
@@ -39,8 +39,5 @@ class DynLoad
   }
 
 };
-
-
-
 
 
