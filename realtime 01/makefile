@@ -10,3 +10,12 @@ all:
 
 # Run:  ./a.exe
 
+# Clean
+clean:
+	find . -name \*.o
+	find . -name \*.o -exec rm -rf {} \;
+	find . -name \*.so
+	find . -name \*.so -exec rm -rf {} \;
+	find . -name \*.0 -exec rm -rf {} \;
+	find . -name \*.1 -exec rm -rf {} \;
+
