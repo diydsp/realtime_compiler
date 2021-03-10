@@ -14,13 +14,13 @@ class DynLoad
   hwsub_func * hwsub;
 
  public:
-  DynLoad()
+  DynLoad( const char *so_path )
   {
-    lib_handle = (void *)dlopen("sub/libbasic1.so", RTLD_LAZY);
+    lib_handle = (void *)dlopen( so_path, RTLD_LAZY);
+
     if(lib_handle)
     {
       hwsub = (hwsub_func*) dlsym(lib_handle, "basic");
-      //add = (add_func*) dlsym(lib_handle, "add");
       if( hwsub )
       {
         hwsub();
@@ -30,7 +30,7 @@ class DynLoad
       {
         std::cout << "Function entry not found in DLL";
       }
-      dlclose(lib_handle);
+      //dlclose(lib_handle);
     }
     else
     {
@@ -38,6 +38,23 @@ class DynLoad
     }
   }
 
+  void *fpget( const char *func_name )
+  {
+    void *func_ptr;
+    func_ptr = dlsym( lib_handle, func_name );
+    //*(void **)(&func_ptr) = dlsym( lib_handle, func_name );
+    if( func_ptr )
+    {
+      std::cout << "found " << func_name << std::endl;
+      //func_ptr();
+    } else
+      {      std::cout << "can not find: " << func_name << std::endl;
+      }
+
+    return func_ptr;
+
+  }
+  
 };
 
 

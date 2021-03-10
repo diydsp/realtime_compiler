@@ -2,15 +2,18 @@
 
 #include "dynload.h"
 
-//int dynload();
+
 
 int main()
 {
   std::cout << "Hello world!" << '\n';
 
-  DynLoad dynload{};
-
-  //dynload();
+  DynLoad dynload( "sub/libbasic1.so" );
+  void *fp = dynload.fpget( "basic" );
+  typedef int (func_ptr) (void);
+  func_ptr *func;
+  *(void **)(&func) = fp;
+  func();
 
   return 0;
 }
