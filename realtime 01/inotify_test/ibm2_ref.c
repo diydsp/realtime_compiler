@@ -17,6 +17,17 @@
 #define EVENT_SIZE  ( sizeof (struct inotify_event) )
 #define BUF_LEN     ( 1024 * ( EVENT_SIZE + 16 ) )
 
+int config_filewatch( const char *name, int fd )
+{
+  int wd;  // watch descriptor
+    
+  wd = inotify_add_watch( fd, name,
+                         IN_MODIFY | IN_CREATE | IN_DELETE );
+                         
+  return wd;                       
+}                         
+
+
 int main( int argc, const char *argv[] ) 
 {
   int length, i = 0;
@@ -30,12 +41,8 @@ int main( int argc, const char *argv[] )
     perror( "inotify_init" );
   }
 
-  char name[8000];
-  strcpy(name,argv[1]);
-  //const *name = argv;
-  wd = inotify_add_watch( fd, name,
-  //wd = inotify_add_watch( fd, "/home/diydsp", 
-                         IN_MODIFY | IN_CREATE | IN_DELETE );
+  wd = config_filewatch( argv[1], fd );
+
   length = read( fd, buffer, BUF_LEN );  
 
   if ( length < 0 ) {
