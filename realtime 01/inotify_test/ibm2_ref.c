@@ -28,20 +28,9 @@ int config_filewatch( const char *name, int fd )
 }                         
 
 
-int main( int argc, const char *argv[] ) 
+void do_filewatch( int fd, char buffer[] )
 {
   int length, i = 0;
-  int fd;
-  int wd;
-  char buffer[BUF_LEN];
-
-  fd = inotify_init();
-
-  if ( fd < 0 ) {
-    perror( "inotify_init" );
-  }
-
-  wd = config_filewatch( argv[1], fd );
 
   length = read( fd, buffer, BUF_LEN );  
 
@@ -49,7 +38,8 @@ int main( int argc, const char *argv[] )
     perror( "read" );
   }  
 
-  while ( i < length ) {
+  while ( i < length ) 
+  {
     struct inotify_event *event = ( struct inotify_event * ) &buffer[ i ];
     if ( event->len ) {
       if ( event->mask & IN_CREATE ) {
@@ -79,7 +69,25 @@ int main( int argc, const char *argv[] )
     }
     i += EVENT_SIZE + event->len;
   }
+}
 
+
+int main( int argc, const char *argv[] ) 
+{
+  int fd;
+  int wd;
+  char buffer[BUF_LEN];
+
+  fd = inotify_init();
+
+  if ( fd < 0 ) {
+    perror( "inotify_init" );
+  }
+
+  wd = config_filewatch( argv[1], fd );
+
+  do_filewatch( fd, buffer );
+  
   ( void ) inotify_rm_watch( fd, wd );
   ( void ) close( fd );
 
